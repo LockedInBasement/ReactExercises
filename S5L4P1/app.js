@@ -9,15 +9,18 @@ const ValidationMessage = (props) => {
     return(<p>{txt}</p>)
 }
 
-const displayMessage = (isConfirmed,isSubmitted) =>
-{
-    if(isSubmitted)
-    {
-        if(isConfirmed){return <ValidationMessage txt = "jest ok"/>}
-        else {return <ValidationMessage txt = "nie jest ok"/>}
-    }
+const OrderForm = (props) => {
+    const {submit,isConfirmed,change} = props;
+    return(
+    <form onSubmit={submit}>
+        <input type = "checkbox" id="ageLabel" onChange={change} checked = {isConfirmed} />
+        <label htmlFor="ageLabel">Mam 16 lat</label>
+        <br/>
+        <button type="submit">Kup bilet</button>
+        <PositiveMessage/>
+    </form>
+    )
 }
-
 
 class TicketShop extends React.Component {
 
@@ -34,14 +37,14 @@ class TicketShop extends React.Component {
         })
     }
 
-    // displayMessage = () =>
-    // {
-    //     if(this.state.isSubmitted)
-    //     {
-    //         if(this.state.isConfirmed){return <ValidationMessage txt = "jest ok"/>}
-    //         else {return <ValidationMessage txt = "nie jest ok"/>}
-    //     }
-    // }
+    displayMessage = () =>
+    {
+        if(this.state.isSubmitted)
+        {
+            if(this.state.isConfirmed){return <ValidationMessage txt = "jest ok"/>}
+            else {return <ValidationMessage txt = "nie jest ok"/>}
+        }
+    }
 
     handleFormSubmit = (e) => {
         e.preventDefault()
@@ -61,14 +64,12 @@ class TicketShop extends React.Component {
         return(
             <>
             <h1>Kup bilet na horror</h1>
-            <form onSubmit={this.handleFormSubmit}>
-                <input type = "checkbox" id="ageLabel" onChange={this.handleCheckboxChange} checked = {this.state.isConfirmed} />
-                <label htmlFor="ageLabel">Mam 16 lat</label>
-                <br/>
-                <button type="submit">Kup bilet</button>
-                <PositiveMessage/>
-            </form>
-            {displayMessage(isConfirmed , isSubmitted)}
+            <OrderForm 
+                change={this.handleCheckboxChange} 
+                submit={this.handleFormSubmit}
+                checked={isConfirmed}
+            />
+            {this.displayMessage()}
             </>
         )
     }
