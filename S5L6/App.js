@@ -1,59 +1,110 @@
-class Form extends React.Component {
-    state = { 
-       city: "Warsaw",
-       text: "",
-       isLiked: true,
-       number: 0,
+const Cash = (props) => {
+    const value = ((props.cash/props.ratio) * props.price).toFixed(2)
+    return(
+        <div>{props.title} {props.cash <= 0 ? "" : value}</div>
+    )
+}
+class ExchangeCounter extends React.Component {
+
+    state = {
+        amount: "",
+        product: "electricity",
     }
 
-    handleChange = e =>{
-        console.log(e.target.type);
-
-        if(e.target.type === "checkbox"){
-            this.setState({
-                [e.target.name]: e.target.checked
-            })
+    static defaultProps = 
+    {
+        currnecies: [
+            {
+                id: 0,
+                name: 'zloty',
+                ratio: 1,
+                title: 'Wartość w zlotowkach:'
+            },
+            {
+                id: 1,
+                name: 'dollar',
+                ratio: 3.6,
+                title: 'Wartość w dolarach:'
+            },
+            {            
+                id: 2,
+                name: 'euro',
+                ratio: 4.1,
+                title: 'Wartość w euro:'
+            },
+            {            
+                id: 3,
+                name: 'pound',
+                ratio: 4.55,
+                title: 'Wartość w funtach:'
+            },
+        ],
+        prices: {
+            electricity: 0.51,
+            gas: 4.76,
+            oranges: 3.79
         }
-        else{
-            this.setState({
-                [e.target.name]: e.target.value
-            })
-        }
+    }
 
+    
+
+    handleChange = e => {
+        this.setState({
+            amount: e.target.value,
+        })
+    }
+
+    handleSelect = e =>{
+        this.setState({
+            product: e.target.value,
+            amount: "",
+        })
+    }
+
+    insertSuffix(select) {
+        if(select === "electricity") return <em>kWh</em>
+        else if(select === "gas") return <em>litrów</em>
+        else if(select === "oranges") return <em>kilogramów</em>
+        else return null
+    }
+
+    selectPrice(select)
+    {
+        const price = this.props.prices[select]
+        return price
     }
 
     render() { 
-        return (  
-            <div>
-                <label>
-                    Podaj miasto
-                    <input name="city" value={this.state.city} onChange={this.handleChange} type="text"/>
-                </label>
-                <br/>
-                <label>
-                    Napisz coś o tym mieście
-                    <textarea name="text" value={this.state.text} onChange={this.handleChange}></textarea>
-                </label>
-                <br/>
-                <label>
-                    Czy lubisz to miasto?
-                    <input name="isLiked" type="checkbox" checked={this.isLiked} onChange={this.handleChange} ></input>
-                </label>
-                <br/>
-                <label>
-                    Ile razy byliście w tym mieście?
-                    <select name="number" value={this.state.number} onChange={this.handleChange}>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="more">więcej</option>
-                    </select>
-                </label>
-            </div>
+
+        const {amount, product} = this.state;
+        const price = this.selectPrice(product);
+
+        const calculators = this.props.currnecies.map(currency => (
+            <Cash key={currency.id} ratio={currency.ratio} title={currency.title} cash={amount} price={price}  />
+        ))
+
+        return (
+        <div className="App">
+            <label> Wybierz produkt:
+            <select value={product} onChange={this.handleSelect}>
+                <option value="electricity"> prąd</option>
+                <option value="gas"> benzyna</option>
+                <option value="oranges"> pomarańcze</option>
+            </select>
+            </label>
+            <br/>
+            
+
+            <label>
+                <input type="number" value={this.state.amount} onChange={this.handleChange}></input>
+                {this.insertSuffix(this.state.product)}
+            </label>
+            {calculators}
+
+        </div>
 
         )
     }
 }
 
-ReactDOM.render(<Form/>, document.getElementById('root'))
+ReactDOM.render(<ExchangeCounter/>, document.getElementById('root'))
