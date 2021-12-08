@@ -1,13 +1,16 @@
 class Clock extends React.Component {
 
     state = {
-        tinme: 0,
+        time: this.getTime()
     }
 
-    handleMultiplication = () => 
-    {
-
-    }
+    getTime(){
+        const currTime = new Date();
+        console.log(currentTime);
+        return(
+            hours
+        )
+    } 
 
     componentDidUpdate()
     {
@@ -15,9 +18,10 @@ class Clock extends React.Component {
     }
 
     render(){
+        const {hours, minutes, seconds}= this.state.time
         return(
             <div>
-                
+                {hours} : {minutes} : {seconds} 
             </div>
         )
     }
