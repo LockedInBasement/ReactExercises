@@ -1,3 +1,3 @@
 ALL test app react v17.
 
-ch 7
+ch7 task 8
