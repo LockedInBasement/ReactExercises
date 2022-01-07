@@ -1,3 +1,3 @@
 ALL test app react v17.
 
-ch7 task 8
+RESTART 10.01.2022
