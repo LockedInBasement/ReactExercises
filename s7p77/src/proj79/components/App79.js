@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import './App78.css';
+//import './App78.css';
 import ButtonFetchUsers from './ButtonFetchUsers';
 import UsersList from './UsersList';
 
-const API = 'https://randomuser.me/api/?result=5';
+const API = 'https://randomuser.me/api/?result=1';
 
-class App78 extends Component {
+class App79 extends Component {
 
   state = {
-      users: null
+      users: []
   }
 
   componentDidMount(){
@@ -25,9 +25,10 @@ class App78 extends Component {
         })
       .then(response => response.json())
       .then(data => {
-          this.setState({
-            users: data.results
-          })
+          const user = data.results;
+          this.setState(prevState => ({
+            users: prevState.users.concat(user)
+          }))
       })
       .catch(error => console.log(Error))
   }
@@ -38,10 +39,10 @@ class App78 extends Component {
     return (
       <div>
             <ButtonFetchUsers click={this.handleDataFetch}/>
-            {users ? <UsersList users = {users}/> : users}
+            {users.length > 0 ? <UsersList users = {users}/> : users}
       </div>
     );
   }
 }
 
-export default App78;
+export default App79;
