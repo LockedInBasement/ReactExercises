@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './proj106/styles/index.css';
-import App106 from './proj106/components/App106';
+import App106 from './proj106/layouts/App106';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<App106 />, document.getElementById('root'));

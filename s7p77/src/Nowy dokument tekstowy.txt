@@ -1,0 +1,11 @@
+          //   <img src={img1} alt="city" />
+          // )}/> 
+          // <Route path="/products" render={() => (
+          //   <img src={img1} alt="city" />
+          // )}/> 
+          // <Route path="/contact" render={() => (
+          //   <img src={img2} alt="city" />
+          // )}/>
+          // <Route path="/admin" render={() => (
+          //   <img src={img3} alt="city" />
+          // )}/>
